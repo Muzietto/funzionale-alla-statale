@@ -1,0 +1,141 @@
+
+Marco - ESERCITAZIONE ALLA STATALE
+----------------------------------
+
+1) JavaScript
+- short history
+- nel browser: DOM
+pagina con horizon red div #myDiv
+console: var theDiv = window.getElementById('myDiv')
+theDiv.innerHTML = '<a href="google.com">GOOGLE</a>'
+theDiv.addEventListener("mouseenter", function(){
+    this.style.background = "yellow";
+});
+theDiv.addEventListener("mouseleave", function(){
+    this.style.background = "white";
+});
+- use CSS to style the DOM
+- the best of JS has nothing to do with webpages!
+
+function plus1(x) { return x+1; }
+[1,2,3,4].map(plus1)
+
+function XXXXX(acc,x,i){ return (acc*i + x)/(i+1) }
+[1,2,3,4].reduce(XXXX,0);
+
+- sul server: node.js
+[show http-server]
+
+2) a language without types
+- node.js console: var pippo = 12
+- typeof pippo
+- pippo + 1
+
+- pippo = 'dodici'
+- typeof pippo
+- pippo + 'pluto'
+- pippo + 12
+
+- freedom requires discipline...
+
+3) chi ci salva? le FUNZIONI!
+
+function leaf(label){
+  return { label : label }
+}
+var leaf12 = leaf(12);
+leaf12
+leaf12.label
+
+function leaf(label){
+  return function(w){
+    return w(label);
+  }
+}
+leaf12 = leaf(12)
+var id = function(x){ return x; }
+leaf12(id)
+
+function label(leaf){
+  return leaf(id);
+}
+label(leaf12)
+
+function node(left,right){
+  return function(w){
+    return w(left,right);
+  }
+}
+
+var tree1 = node(leaf('a'),node(leaf('b'),leaf('c')));
+
+function left(node){
+  return node(function(l,r){
+    return l;
+  })
+}
+
+left(tree1)
+label(left(tree1))
+
+function right(tree){
+  return tree(function(l,r){
+    return r;
+  });
+}
+
+label(right(right(tree1)))
+
+4) a bit about lists
+- they are not binary trees
+- official name is ARRAY 
+
+var pippo = [1,2,3,4]
+pippo.slice(1)
+pippo
+
+function tail(list){
+  return list.slice(1);
+}
+
+pippo.slice(0,1)
+function head(list){
+  return list.slice(0,1)[0];
+}
+
+function cons(atom,list){
+  return [atom].concat(list);
+}
+
+pippo.concat(pippo)
+pippo
+
+function cons(atom,list){
+  return [atom].concat(list);
+}
+cons(0,pippo)
+
+
+5) recursion
+
+function FL(l,f,a){
+  if (l.length === 0) {
+    return a;
+  }
+  return FL(tail(l),f,f(a,head(l)));
+}
+FL([1,2,3,4],function(x,y){ return x+y; },0)
+
+function C___Y(f){
+  return function(x){
+    if (f.length === 1){
+      return f(x);
+    }
+    return C___Y(f.bind(null, x));
+  }
+}
+function sommaTre(x,y,z){ return x+y+z; }(1,2,3)
+C___Y(sommaTre)(1)(2)(3)
+
+
+
