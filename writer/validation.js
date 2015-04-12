@@ -1,8 +1,5 @@
 'use strict';
 
-function getById(id){ return document.getElementById(id); }
-function getByClass(name){ return document.getElementsByClassName(name); }
-
 function writer(couple){
   var monad = couple.slice();
   var m_empty = '';
@@ -13,14 +10,20 @@ function writer(couple){
   }
   return monad;
 }
+writer.unit = function(value){ return writer([value, '']); }
 
 function validate() {
-  //debugger;
   var htmlElems = document.getElementsByClassName('validation');
   var inputsArray = [].slice.call(htmlElems);
+  var monad = writer.unit();
+
   inputsArray.forEach(function(item){
-    var predicate = Function('value', 'return ' + item.dataset.predicate);
-    console.log(item.id + '; ' + item.value + ' --> ' + predicate(item.value));
+    var predicate = new Function('value', 'return ' + item.dataset.predicate);
+    var isOk = predicate(item.value);
+    var verdict = item.id + '; ' + item.value + ' --> ' + isOk + '\n';
+    var faw = function(previousIsOk){ return writer([isOk, verdict]);}
+    monad = monad.bind(faw);
   });
-  
+
+  alert(monad[1]);
 }
