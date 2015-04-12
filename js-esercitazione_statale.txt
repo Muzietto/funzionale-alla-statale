@@ -36,7 +36,21 @@ function XXXXX(acc,x,i){ return (acc*i + x)/(i+1) }
 - pippo + 'pluto'
 - pippo + 12
 
+pippo = { nome:'giuseppe', età:12}
+typeof pippo
+pippo.nome
+pippo.età
+pippo['nome']
+var key = 'nome'
+pippo[key]
+
+pippo = ['giuseppe',12]
+typeof pippo
+pippo[0]
+pippo[1]
+
 - freedom requires discipline...
+- adding types to JS is just wrong, wrong, wrong....
 
 3) chi ci salva? le FUNZIONI!
 
@@ -46,6 +60,13 @@ function leaf(label){
 var leaf12 = leaf(12);
 leaf12
 leaf12.label
+
+function leaf(label){
+  return { getLabel: function(){ return label; }}
+}
+leaf12 = leaf(12)
+leaf12
+leaf12.getLabel()
 
 function leaf(label){
   return function(w){
@@ -86,8 +107,25 @@ function right(tree){
 
 label(right(right(tree1)))
 
+- per i veri nostalgici dei tipi...
+function leaf(label){
+  return function leaf(w){
+    return w(label);
+  }
+}
+leaf('a').name
+leaf('b').name
+switch(tree.name){
+  case 'leaf':
+    ...
+    break;
+  case 'node':
+    ...
+    break;
+}
+
 4) a bit about lists
-- they are not binary trees
+- they're no binary trees
 - official name is ARRAY 
 
 var pippo = [1,2,3,4]
@@ -103,6 +141,9 @@ function head(list){
   return list.slice(0,1)[0];
 }
 
+- copia di un'array?
+var pluto = pippo.slice()
+
 function cons(atom,list){
   return [atom].concat(list);
 }
@@ -115,9 +156,7 @@ function cons(atom,list){
 }
 cons(0,pippo)
 
-
 5) recursion
-
 function FL(l,f,a){
   if (l.length === 0) {
     return a;
@@ -126,16 +165,43 @@ function FL(l,f,a){
 }
 FL([1,2,3,4],function(x,y){ return x+y; },0)
 
-function C___Y(f){
+function CY(f){
   return function(x){
     if (f.length === 1){
       return f(x);
     }
-    return C___Y(f.bind(null, x));
+    return CY(f.bind(null, x));
   }
 }
 function sommaTre(x,y,z){ return x+y+z; }(1,2,3)
-C___Y(sommaTre)(1)(2)(3)
+CY(sommaTre)(1)(2)(3)
+
+6) writer monad
+- [value,monoid]
+- monoide --> elemento neutro (m_empty) + operatore binario (m_append) + proprietà associativa
+
+function writer(couple){
+  var monad = couple.slice();
+  var m_empty = null;
+  var m_append = null;
+  monad.bind = function(faw){
+    var newCouple = faw(monad[0]);
+    return writer([newCouple[0], m_append(monad[1], newCouple[1])]);
+  }
+  return monad;
+}
+
+- 
 
 
+7) further pointers
+- libro crockford
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript
+- underscore.js && libro Fogus
+- JavaScript allongè
 
+- the Little/Seasoned Schemer
+- SICP
+- Clojure!!!!!!!!
+
+- craftmanship, craftmanship, craftmanship...
