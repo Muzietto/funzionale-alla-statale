@@ -1,0 +1,48 @@
+﻿<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+        <title>monadic validation</title>
+        
+        <style>
+          body {
+            font-family: Verdana;
+            font-size: 1.5em;
+          } 
+          .horizon {
+            width: 500px;
+            margin: 0 auto;
+            padding: 10px;
+            border: 2px solid red;
+          }
+          .horizon input, .horizon label {
+            margin: 10px;
+          }
+          .horizon input {
+            width: 400px;
+            height: 2em;
+          }
+        </style>
+
+        <script type="text/javascript" src="validation.js"></script>
+        <script type="text/javascript">
+              onload = function(){
+                //getById('btn').click();
+              };
+        </script>
+    </head>
+    <body>
+        <h1 style="margin-left:20px;">validation using the writer monad</h1>
+        <div id="mainDiv" class="horizon">
+          <label for="numericInput">insert a NUMBER</label>
+          <input type="text" class="validation" id="numericInput" data-predicate="/^[0-9]+$/.test(value)"/>
+          <label for="booleanInput">insert a BOOLEAN</label>
+          <input type="text" class="validation" id="booleanInput" data-predicate="/^(true|false)$/.test(value)"/>
+          <label for="stringInput">insert a STRING containing A</label>
+          <input type="text" class="validation" id="stringInput" data-predicate="/A+/.test(value)"/>
+          
+          <input id="btn" type="button" value="VALIDATE" onclick="validate()"/>
+        </div>
+    </body>
+</html>
+ 
