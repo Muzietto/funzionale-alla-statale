@@ -1,13 +1,17 @@
-
+SLIDE 1
 Marco - ESERCITAZIONE ALLA STATALE
 ----------------------------------
 
+SLIDE 2
+-------
 1) JavaScript
+SLIDE 3
+-------
 - short history
 - nel browser: DOM
-pagina con horizon red div #myDiv
-console: var theDiv = window.getElementById('myDiv')
-theDiv.innerHTML = '<a href="google.com">GOOGLE</a>'
+pagina con horizon red div #mainDiv
+console: var theDiv = window.getElementById('v')
+theDiv.innerHTML = '<a href="http://google.com">GOOGLE</a>'
 theDiv.addEventListener("mouseenter", function(){
     this.style.background = "yellow";
 });
@@ -17,8 +21,12 @@ theDiv.addEventListener("mouseleave", function(){
 - use CSS to style the DOM
 - the best of JS has nothing to do with webpages!
 
+SLIDE 4
+-------
 function plus1(x) { return x+1; }
 [1,2,3,4].map(plus1)
+
+[1,2,3,4].reduce(function(x,y){ return x*y },1)
 
 function XXXXX(acc,x,i){ return (acc*i + x)/(i+1) }
 [1,2,3,4].reduce(XXXX,0);
@@ -26,8 +34,10 @@ function XXXXX(acc,x,i){ return (acc*i + x)/(i+1) }
 - sul server: node.js
 [show http-server]
 
+SLIDE 5
+-------
 2) a language without types
-- node.js console: var pippo = 12
+- Chrome console: var pippo = 12
 - typeof pippo
 - pippo + 1
 
@@ -36,15 +46,15 @@ function XXXXX(acc,x,i){ return (acc*i + x)/(i+1) }
 - pippo + 'pluto'
 - pippo + 12
 
-pippo = { nome:'giuseppe', età:12}
+pippo = { nome:'giuseppe', età:12 }
 typeof pippo
 pippo.nome
 pippo.età
 pippo['nome']
-var key = 'nome'
+var key = 'età'
 pippo[key]
 
-pippo = ['giuseppe',12]
+pippo = ['giuseppe', 12]
 typeof pippo
 pippo[0]
 pippo[1]
@@ -52,6 +62,8 @@ pippo[1]
 - freedom requires discipline...
 - adding types to JS is just wrong, wrong, wrong....
 
+SLIDE 6
+-------
 3) chi ci salva? le FUNZIONI!
 
 function leaf(label){
@@ -88,7 +100,7 @@ function node(left,right){
   }
 }
 
-var tree1 = node(leaf('a'),node(leaf('b'),leaf('c')));
+var bintree = node(leaf('a'),node(leaf('b'),leaf('c')));
 
 function left(node){
   return node(function(l,r){
@@ -96,8 +108,8 @@ function left(node){
   })
 }
 
-left(tree1)
-label(left(tree1))
+left(bintree)
+label(left(bintree))
 
 function right(tree){
   return tree(function(l,r){
@@ -105,7 +117,7 @@ function right(tree){
   });
 }
 
-label(right(right(tree1)))
+label(right(right(bintree)))
 
 - per i veri nostalgici dei tipi...
 function leaf(label){
@@ -123,6 +135,8 @@ switch(tree.name){
     ...
     break;
 }
+
+- REM: JS allows pattern matching!!!
 
 4) a bit about lists
 - they're no binary trees
@@ -191,14 +205,13 @@ function writer(couple){
   return monad;
 }
 
-- 
-
 
 7) further pointers
 - libro crockford
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript
 - underscore.js && libro Fogus
 - JavaScript allongè
+- Axel Rauschmayer, Matt Might, Douglas Crockford, Reginald Braithwaite
 
 - the Little/Seasoned Schemer
 - SICP
