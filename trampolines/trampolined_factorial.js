@@ -6,22 +6,23 @@ function fact(n){
 fact(100000) // Max call size exceeded
 
 function fact2(n){
-
-  function xxx(ind, result){
+  var result, helper;
+  
+  function helper(ind, acc){
     if (ind === 0) {
-      return result;
+      return acc;
     } else {
       return function(){
-        return xxx(ind - 1, ind * result);
+        return helper(ind - 1, ind * acc);
       }
     }
   }
-  var start = xxx(n, 1);
+  var result = helper(n, 1);
   while (typeof start === 'function'){
     // trampoline
-    start = start();
+    result = result();
   }
-  return start;  
+  return result;  
 }
 
 fact2(100000) // Infinity
