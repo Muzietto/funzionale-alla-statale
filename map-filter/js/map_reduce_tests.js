@@ -156,14 +156,5 @@ describe('using reduce', () => {
             // where do you put the 'ab.cde.f.gh.ijk.lm' string?
             expect(enumeration(/*times*/).reduce(/*.. , ..*/)).to.be.eql('a.b.c.d.e.f');
         });
-
-        it('in a working proof of concept', () => {
-
-            const THE_REGEX = /^(.*)\.[^\.]+$/;
-
-            expect(enumeration(3)
-                .reduce((acc, curr) => THE_REGEX.exec(acc)[1], 'ab.cde.f.gh.ijk.lm'))
-                .to.be.eql('ab.cde.f');
-        });
     });
 });
