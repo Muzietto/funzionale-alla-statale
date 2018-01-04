@@ -18,7 +18,7 @@ describe('using map and/or filter', function () {
         expect(['social', 'sweethearts']).to.be.eql([6, 11]);
     });
 
-    it('filters a list of numbers to remove all even ones', function () {
+    it('filter a list of numbers to remove all even ones', function () {
 
         function withoutEvens(array) {
             return array;
@@ -42,7 +42,27 @@ describe('using map and/or filter', function () {
         // try to solve it with a one-liner
         expect('abc').to.be.eql([97, 98, 99]);
 
+        // try to solve it with a one-liner
         expect(['abc', 'def']).to.be.eql([[97, 98, 99], [100, 101, 102]]);
-        // next step will be to flatten the two sub-arrays
+
+        // one of the next steps will be to flatten the two sub-arrays
     });
+
+    it('capitalize all strings inside an array', function () {
+
+        function capitalized(array) {
+            return array;
+        }
+
+        expect(capitalized(['social', 'sweethearts', 'gmbh'])).to.be.eql(['Social', 'Sweethearts', 'Gmbh']);
+
+        // try to make it with a one-liner and without using substring
+        // nor any other string positional operator
+        // hint: check the API docs for String.prototype.map
+        expect(['social', 'sweethearts', 'gmbh']).to.be.eql(['Social', 'Sweethearts', 'Gmbh']);
+    });
+});
+
+describe('using reduce', () => {
+    it('');
 });
