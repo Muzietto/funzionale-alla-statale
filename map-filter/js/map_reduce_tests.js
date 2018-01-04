@@ -30,18 +30,19 @@ describe('using map and/or filter', function () {
         expect([1, 2, 3]).to.be.eql([1, 3]);
     });
 
-
     it('and split, create a list of ASCII codes of all chars in a string', function () {
 
-        function withoutEvens(array) {
+        function charCodesArray(string) {
             // you can use String.prototype.charCodeAt
-            return array;
+            return string;
         }
 
-        expect(charcodes('abc')).to.be.eql([97, 98, 99]);
+        expect(charCodesArray('abc')).to.be.eql([97, 98, 99]);
 
-        // try to solve it with an one-liner
+        // try to solve it with a one-liner
         expect('abc').to.be.eql([97, 98, 99]);
-    });
 
+        expect(['abc', 'def']).to.be.eql([[97, 98, 99], [100, 101, 102]]);
+        // next step will be to flatten the two sub-arrays
+    });
 });
