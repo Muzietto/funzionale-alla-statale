@@ -3,8 +3,8 @@ expect = chai.expect;
 describe('maybes are optional values', function () {
     it('that express whether a calculation has produced some result - 1', function () {
 
-        expect(Maybe.fromNullable(optionalParse('123')).isJust).to.be.true;
-        expect(Maybe.fromNullable(optionalParse('abc')).isNothing).to.be.true;
+        expect(Maybe.fromNullable(parsedIntOrNull('123')).isJust).to.be.true;
+        expect(Maybe.fromNullable(parsedIntOrNull('abc')).isNothing).to.be.true;
     });
 
     it('that express whether a calculation has produced some result - 2', function () {
@@ -19,18 +19,23 @@ describe('maybes are optional values', function () {
 
         var add = x => y => x + y;
 
-        var MaybeAdd = Maybe.of(add);
+        var MaybeAdd = Maybe.fromNullable(add);
 
-        expect(MaybeAdd.apply(Maybe.fromNullable(optionalParse('123')))
-            .apply(Maybe.fromNullable(optionalParse('234')))
-            .getOrElse('no result')).to.be.eql(357);
-        expect(MaybeAdd.apply(Maybe.fromNullable(optionalParse('abc')))
-            .apply(Maybe.fromNullable(optionalParse('234')))
-            .getOrElse('no result')).to.be.eql('no result');
+        var applicationOk = MaybeAdd
+            .apply(optionalParsedInt('123'))
+            .apply(optionalParsedInt('234'));
+
+        expect(applicationOk.getOrElse('no result')).to.be.eql(357);
+
+        var applicationKo = MaybeAdd
+            .apply(optionalParsedInt('abc'))
+            .apply(optionalParsedInt('234'));
+
+        expect(applicationKo.getOrElse('no result')).to.be.eql('no result');
     });
 });
 
-function optionalParse(str) {
+function parsedIntOrNull(str) {
     result = null;
     try {
         result = parseInt(str, 10);
@@ -39,4 +44,8 @@ function optionalParse(str) {
     }
     if (isNaN(result)) result = null;
     return result;
+}
+
+function optionalParsedInt(str) {
+    return Maybe.fromNullable(parsedIntOrNull(str));
 }
