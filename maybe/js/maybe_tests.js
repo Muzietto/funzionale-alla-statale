@@ -14,7 +14,7 @@ describe('maybes are optional values', function () {
         expect(Maybe.fromNullable([1, 2, 3].find(x => (x === 4))).isNothing)
             .to.be.true;
     });
-    
+
     it('that can be combined in fail-safe operations', function () {
 
         var add = x => y => x + y;

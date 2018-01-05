@@ -4,132 +4,178 @@ describe('using map and/or filter', function () {
     beforeEach(function () {
     });
 
-    it('transform a list of strings into a list of their lengths', function () {
+    describe('transform a list of strings into a list of their lengths', function () {
 
-        function stringToItsLength(array) {
-            return array;
-        }
+        it('first doing it with a procedural routine', () => {
 
-        expect(stringToItsLength([''])).to.be.eql([0]);
+            function stringToItsLength(array) {
+                return array;
+            }
 
-        // try to use ['a'].map(........)
-        expect(['a']).to.be.eql([1]);
+            expect(stringToItsLength([''])).to.be.eql([0]);
+        });
+        it('then doing it functionally', () => {
 
-        expect(['social', 'sweethearts']).to.be.eql([6, 11]);
+            // try to use ['a'].map(........)
+            expect(['a']).to.be.eql([1]);
+
+            expect(['social', 'sweethearts']).to.be.eql([6, 11]);
+        });
     });
 
-    it('filter a list of numbers to remove all even ones', function () {
+    describe('filter a list of numbers to remove all even ones', function () {
 
-        function withoutEvens(array) {
-            return array;
-        }
+        it('first doing it with a procedural routine', () => {
+            function withoutEvens(array) {
+                return array;
+            }
 
-        expect(withoutEvens([1, 2, 3])).to.be.eql([1, 3]);
+            expect(withoutEvens([1, 2, 3])).to.be.eql([1, 3]);
+        });
+        it('then doing it functionally', () => {
 
-        // try to use [1,2,3].filter(........)
-        expect([1, 2, 3]).to.be.eql([1, 3]);
+            // try to use [1,2,3].filter(........)
+            expect([1, 2, 3]).to.be.eql([1, 3]);
+        });
     });
 
-    it('and split, create a list of ASCII codes of all chars in a string', function () {
+    describe('and split, create a list of ASCII codes of all chars in a string', function () {
 
-        function charCodesArray(string) {
-            // you can use String.prototype.charCodeAt
-            return string;
-        }
+        it('first doing it with a procedural routine', () => {
 
-        expect(charCodesArray('abc')).to.be.eql([97, 98, 99]);
+            function charCodesArray(string) {
+                // you can use String.prototype.charCodeAt
+                return string;
+            }
 
-        // try to solve it with a one-liner
-        expect('abc').to.be.eql([97, 98, 99]);
+            expect(charCodesArray('abc')).to.be.eql([97, 98, 99]);
+        });
 
-        // try to solve it with a one-liner
-        expect(['abc', 'def']).to.be.eql([[97, 98, 99], [100, 101, 102]]);
+        it('then doing it functionally', () => {
 
-        // one of the next steps will be to flatten the two sub-arrays
+            // try to solve it with a one-liner
+            expect('abc').to.be.eql([97, 98, 99]);
+
+            // try to solve it with a one-liner
+            expect(['abc', 'def']).to.be.eql([[97, 98, 99], [100, 101, 102]]);
+
+            // one of the next steps will be to flatten the two sub-arrays
+        });
     });
 
-    it('capitalize all strings inside an array', function () {
+    describe('capitalize all strings inside an array', function () {
 
-        function capitalized(array) {
-            return array;
-        }
+        it('first doing it with a procedural routine', () => {
+            function capitalized(array) {
+                return array;
+            }
 
-        expect(capitalized(['social', 'sweethearts', 'gmbh'])).to.be.eql(['Social', 'Sweethearts', 'Gmbh']);
+            expect(capitalized(['social', 'sweethearts', 'gmbh'])).to.be.eql(['Social', 'Sweethearts', 'Gmbh']);
+        });
 
-        // try to make it with a one-liner and without using substring
-        // nor any other string positional operator
-        // hint: check the API docs for String.prototype.map
-        expect(['social', 'sweethearts', 'gmbh']).to.be.eql(['Social', 'Sweethearts', 'Gmbh']);
+        it('then doing it functionally', () => {
+
+            // try to make it with a one-liner and without using substring
+            // nor any other string positional operator
+            // hint: check the complete signature of the mapping function
+            // inside the API docs for String.prototype.map
+            expect(['social', 'sweethearts', 'gmbh']).to.be.eql(['Social', 'Sweethearts', 'Gmbh']);
+        });
     });
 });
 
 describe('using reduce', () => {
-    it('calculate the sum of all elements inside an array', () => {
+    describe('calculate the sum of all elements inside an array', () => {
 
-        function sum(array) {
-            return 0;
-        }
+        it('first doing it with a procedural routine', () => {
+            function sum(array) {
+                return 0;
+            }
 
-        expect(sum([1, 2, 3])).to.be.eql(6);
+            expect(sum([1, 2, 3])).to.be.eql(6);
 
-        // try something like [1,2,3].reduce(.. , ..)
-        expect([1, 2, 3]).to.be.eql(2);
+        });
 
-    });
-
-    it('calculate the average of all elements inside an array', () => {
-
-        function average(array) {
-            return 0;
-        }
-
-        expect(average([1, 2, 3])).to.be.eql(2);
-
-        // try something like [1,2,3].reduce(.. , ..)
-        expect([1, 2, 3]).to.be.eql(2);
+        it('then doing it functionally', () => {
+            // try something like [1,2,3].reduce(.. , ..)
+            expect([1, 2, 3]).to.be.eql(2);
+        });
 
     });
 
-    it('verify that all elements of an array satisfy a given condition (same as Array.prototype.every)', () => {
+    describe('calculate the average of all elements inside an array', () => {
 
-        function isAllEven(array) {
-            return true;
-        }
+        it('first doing it with a procedural routine', () => {
+            function average(array) {
+                return 0;
+            }
 
-        expect(isAllEven([2, 4, 6])).to.be.true;
+            expect(average([1, 2, 3])).to.be.eql(2);
+        });
 
-        // try something like [2,4,6].reduce(.. , ..)
-        expect([2, 4, 6]).to.be.true;
+        it('then doing it functionally', () => {
 
-        // you can obtain this also with Array.prototype.every
-        expect([2, 4, 6].every(/* ... */)).to.be.true;
+            // try something like [1,2,3].reduce(.. , ..)
+            expect([1, 2, 3]).to.be.eql(2);
+        });
+
     });
 
-    it('verify that at least one element of an array satisfies a given condition (same as Array.prototype.some)', () => {
+    describe('verify that all elements of an array satisfy a given condition (same as Array.prototype.every)', () => {
 
-        function atLeastOneEven(array) {
-            return true;
-        }
+        it('first doing it with a procedural routine', () => {
+            function isAllEven(array) {
+                return true;
+            }
 
-        expect(atLeastOneEven([1, 4, 7])).to.be.true;
+            expect(isAllEven([2, 4, 6])).to.be.true;
 
-        // try something like [1,4,7].reduce(.. , ..)
-        expect([1, 4, 7]).to.be.true;
+        });
 
-        // you can obtain this also with Array.prototype.some
-        expect([2, 4, 6].some(/* ... */)).to.be.true;
+        it('then doing it functionally', () => {
+            // try something like [2,4,6].reduce(.. , ..)
+            expect([2, 4, 6]).to.be.true;
+
+            // you can obtain this also with Array.prototype.every
+            expect([2, 4, 6].every(/* ... */)).to.be.true;
+        });
     });
 
-    it('clone an object while modifying it partially', () => {
+    describe('verify that at least one element of an array satisfies a given condition (same as Array.prototype.some)', () => {
 
-        function makeEvenValuesOneven(obj) {
-            return obj;
-        }
+        it('first doing it with a procedural routine', () => {
+            function atLeastOneEven(array) {
+                return true;
+            }
 
-        expect(makeEvenValuesOneven({a: 2, b: 5})).to.be.eql({a: 3, b: 5});
+            expect(atLeastOneEven([1, 4, 7])).to.be.true;
 
-        // try something like Object.keys(obj).reduce(.. , ..)
-        expect({a: 2, b: 5}).to.be.eql({a: 3, b: 5});
+        });
+
+        it('then doing it functionally', () => {
+            // try something like [1,4,7].reduce(.. , ..)
+            expect([1, 4, 7]).to.be.true;
+
+            // you can obtain this also with Array.prototype.some
+            expect([2, 4, 6].some(/* ... */)).to.be.true;
+        });
+    });
+
+    describe('clone an object while modifying it partially', () => {
+
+        it('first doing it with a procedural routine', () => {
+            function makeEvenValuesOneven(obj) {
+                return obj;
+            }
+
+            expect(makeEvenValuesOneven({a: 2, b: 5})).to.be.eql({a: 3, b: 5});
+        });
+
+        it('then doing it functionally', () => {
+
+            // try something like Object.keys(obj).reduce(.. , ..)
+            expect({a: 2, b: 5}).to.be.eql({a: 3, b: 5});
+        });
     });
 
     describe('do something n times by defining an \'enumeration\' factory', () => {
@@ -155,6 +201,28 @@ describe('using reduce', () => {
 
             // where do you put the 'ab.cde.f.gh.ijk.lm' string?
             expect(enumeration(/*times*/).reduce(/*.. , ..*/)).to.be.eql('a.b.c.d.e.f');
+        });
+    });
+    describe('SPECIAL CHALLENGE: flatten an array, no matter how many levels it\'s nested', function () {
+
+        it('first doing it with a procedural routine', () => {
+            function flattened(array) {
+                return array;
+            }
+
+            expect(flattened([1, [2, 3, [4]], 5, [[6, 7, [8]], 9], 0]))
+                .to.be.eql([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
+        });
+
+        it.only('then doing it functionally', () => {
+
+            function flattenedElement(acc, elem) {
+                if (!Array.isArray(elem)) return acc.concat(elem);
+                return acc.concat(elem.reduce(flattenedElement, []));
+            }
+
+            expect(([1, [2, 3, [4]], 5, [[6, 7, [8]], 9], 0].reduce(flattenedElement, [])))
+                .to.be.eql([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
         });
     });
 });
