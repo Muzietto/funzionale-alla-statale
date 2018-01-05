@@ -56,45 +56,41 @@ describe('maybes are optional values', function () {
                 .to.be.eql('you are broke');
         });
 
-        it('with the possibility to recover from debt', () => {
-            var changeBalance = delta => balance => (balance + delta >= 0) ? Maybe.of(balance + delta) : Maybe.Nothing();
-
-            // let's define a function that always restores the balance to 0
-            var restoreBalance = Maybe.Just; // TODO: implement me
-
-            expect(Maybe.of(2).bind(changeBalance(-3)).bind(restoreBalance).getOrElse('you are broke'))
-                .to.be.eql(0);
-
-            expect(Maybe.of(2).bind(changeBalance(-3)).bind(changeBalance(-4)).bind(restoreBalance).bind(changeBalance(5)).getOrElse('you are broke'))
-                .to.be.eql(5);
-            // question: what is the value of balance when restoreBalance is applied in the last test?
-        });
-
         it('with a flexible overdraft value', () => {
 
             var changeBalance = delta => balance => (balance + delta >= 0) ? Maybe.of(balance + delta) : Maybe.Nothing();
             // this function has one drawback: the maximum overdraft value (0) is hardcoded inside, and not modifiable
             // what we need is to pass around a Maybe.Just(Tuple.Pair(balance, overdraft))
 
-            var changeBalancePair = delta => pair => pair; // TODO: implement me
-            expect(Maybe.of(Tuple.Pair(2, -1)).bind(changeBalancePair(-1)).getOrElse('you exceeded your overdraft'))
+            var changeBalance = delta => ([balance, overdraft]) => (balance + delta >= overdraft)
+                ? Maybe.of(Tuple.Pair(balance + delta, overdraft)) : Maybe.Nothing();
+            expect(Maybe.of(Tuple.Pair(2, -1)).bind(changeBalance(-1)).getOrElse('you exceeded your overdraft'))
                 .to.be.eql(Tuple.Pair(1, -1));
-            expect(Maybe.of(Tuple.Pair(2, -1)).bind(changeBalancePair(-3)).getOrElse('you exceeded your overdraft'))
+            expect(Maybe.of(Tuple.Pair(2, -1)).bind(changeBalance(-3)).getOrElse('you exceeded your overdraft'))
                 .to.be.eql(Tuple.Pair(-1, -1)); // still allowed
-            expect(Maybe.of(Tuple.Pair(2, -1)).bind(changeBalancePair(-4)).getOrElse('you exceeded your overdraft'))
+            expect(Maybe.of(Tuple.Pair(2, -1)).bind(changeBalance(-4)).getOrElse('you exceeded your overdraft'))
                 .to.be.eql('you exceeded your overdraft'); // no longer allowed
 
-            // let's redefine now the function that always restores the balance to 0 and an overdraft of -5
-            var restoreBalance = Maybe.Just; // TODO: implement me
+            // let's implement a function that changes the value of the overdraft without touching the balance
+            var newOverdraft = newValue => ([balance, overdraft]) => Maybe.of(Tuple.Pair(balance, newValue));
 
-            expect(Maybe.of(Tuple.Pair(2, -1)).bind(changeBalancePair(-4)).bind(restoreBalance).getOrElse('you exceeded your overdraft'))
-                .to.be.eql(Tuple.Pair(0, -5));
-
-            // let's implement a function that changes the value of the overdraft
-            var newOverdraft = newValue => pair => pair; // TODO: implement me
-
-            expect(Maybe.of(Tuple.Pair(2, -1)).bind(newOverdraft(-4)).bind(changeBalancePair(-4)).getOrElse('you exceeded your overdraft'))
+            expect(Maybe.of(Tuple.Pair(2, -1)).bind(newOverdraft(-4)).bind(changeBalance(-4)).getOrElse('you exceeded your overdraft'))
                 .to.be.eql(Tuple.Pair(-2, -4));
+
+            // after solving the next exercise, you may want to implement debt recovering also here
+        });
+
+        it('but the possibility to recover from debt is tricky', () => {
+            var changeBalance = delta => balance => (balance + delta >= 0) ? Maybe.of(balance + delta) : Maybe.Nothing();
+            // once we are in red and the balance becomes a Nothing, every function that we bind will actually not operate
+
+            // getOrElse to the rescue!
+            expect(Maybe.of(2).bind(changeBalance(-3)).getOrElse(Maybe.Just(0)).getOrElse('you are broke'))
+                .to.be.eql(0);
+
+            expect(Maybe.of(2).bind(changeBalance(-3)).bind(changeBalance(-4)).getOrElse(Maybe.Just(0)).bind(changeBalance(5)).getOrElse('you are broke'))
+                .to.be.eql(5);
+            // question: what is the value of balance when restoreBalance is applied in the last test?
         });
     });
 })
