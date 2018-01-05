@@ -214,14 +214,13 @@ describe('using reduce', () => {
                 .to.be.eql([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
         });
 
-        it.only('then doing it functionally', () => {
+        it('then doing it functionally', () => {
 
-            function flattenedElement(acc, elem) {
-                if (!Array.isArray(elem)) return acc.concat(elem);
-                return acc.concat(elem.reduce(flattenedElement, []));
+            function flatteningReducer(acc, curr) {
+                return acc;
             }
 
-            expect(([1, [2, 3, [4]], 5, [[6, 7, [8]], 9], 0].reduce(flattenedElement, [])))
+            expect([1, [2, 3, [4]], 5, [[6, 7, [8]], 9], 0])
                 .to.be.eql([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
         });
     });
