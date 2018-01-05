@@ -123,7 +123,7 @@ Maybe.prototype.Just = Maybe.Just;
  * @summary α → Maybe[α]
  */
 Maybe.fromNullable = function (a) {
-    return (a !== null && typeof a !== 'undefined') ? new Just(a)
+    return ((a !== null) && (typeof a !== 'undefined') && (!Number.isNaN(a))) ? new Just(a)
         : /* otherwise */  new Nothing;
 };
 Maybe.prototype.fromNullable = Maybe.fromNullable;
@@ -216,7 +216,7 @@ Maybe.prototype.fmap = unimplemented;
 Nothing.prototype.fmap = noop;
 
 Just.prototype.fmap = function (f) {
-    return this.of(f(this.value));
+    return this.fromNullable(f(this.value));
 };
 
 // -- Chain ------------------------------------------------------------
