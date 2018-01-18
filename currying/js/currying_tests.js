@@ -28,6 +28,21 @@ describe('curried functions are useful', function () {
         expect(fishAndChipsRecipe.apply(null, wineAndMustard)).to.be.eql(/**/);
 
     });
+
+    it('when you want to make your operators a bit more readable', () => {
+        const objs = [{id: 1}, {id: 5}, {id: 3}, {id: 6}, {id: 4}, {id: 2}, {id: 7}, {id: 5}, {id: 6}];
+
+        const idGetter = obj => obj.id;
+        const complicatedIdExtraction = objs.map(idGetter);
+
+        expect(complicatedIdExtraction[0]).to.be.eql(1);
+        expect(complicatedIdExtraction[1]).to.be.eql(5);
+
+        const get = field => obj => obj[field];
+        const simplerIdExtraction = objs.map(get('id'));
+
+        expect(simplerIdExtraction).to.be.eql(complicatedIdExtraction);
+    });
 });
 
 describe('separating single params', () => {
@@ -61,11 +76,11 @@ function multiParam(a, b, c, d) {
     return a + b + c + d;
 }
 
-function callFirst(fn, larg) {
+function callFirst(fn, firstArg) {
     return function () {
         var args = Array.prototype.slice.call(arguments);
 
-        return fn.apply(null, [larg].concat(args));
+        return fn.apply(null, [firstArg].concat(args));
     };
 }
 
