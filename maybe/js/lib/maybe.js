@@ -252,7 +252,7 @@ Nothing.prototype.fold = function (f, _) {
 };
 
 Just.prototype.fold = function (_, g) {
-    return g(this.value);
+    return g();
 };
 
 // -- Show -------------------------------------------------------------
