@@ -48,36 +48,17 @@ describe('generic unary currying is tricky to implement', () => {
         expect(multiParam(1, 2, 3, 4)).to.be.eql(10);
 
         const curriedMultiParam = curried(multiParam);
-
         expect(curriedMultiParam(1)(2)(3)(4)).to.be.eql(/**/);
+    });
+    it('...and watch out that this implementation is not strictly unary', () => {
 
-        function curried(fn) {
-            var arity = fn.length;
-
-            return fnAppliedToStepwiseArgs([]);
-
-            function fnAppliedToStepwiseArgs(argsSoFar) {
-                return function () {
-                    let currentArgs = Array.prototype.slice.call(arguments);
-
-                    var updatedArgsSoFar = argsSoFar.concat(currentArgs);
-
-                    if (updatedArgsSoFar.length >= arity) {
-                        return fn.apply(null, updatedArgsSoFar);
-                    }
-                    else return fnAppliedToStepwiseArgs(updatedArgsSoFar);
-                };
-            }
-        }
+        const curriedMultiParam = curried(multiParam);
+        expect(curriedMultiParam(1, 2)(3, 4)).to.be.eql(/**/);
     });
 });
 
 function multiParam(a, b, c, d) {
     return a + b + c + d;
-}
-
-function enumeration(n) {
-    return Array.from(Array(n).keys());
 }
 
 function callFirst(fn, larg) {
@@ -86,4 +67,23 @@ function callFirst(fn, larg) {
 
         return fn.apply(null, [larg].concat(args));
     };
+}
+
+function curried(fn) {
+    var arity = fn.length;
+
+    return fnAppliedToStepwiseArgs([]);
+
+    function fnAppliedToStepwiseArgs(argsSoFar) {
+        return function () {
+            let currentArgs = Array.prototype.slice.call(arguments);
+
+            var updatedArgsSoFar = argsSoFar.concat(currentArgs);
+
+            if (updatedArgsSoFar.length >= arity) {
+                return fn.apply(null, updatedArgsSoFar);
+            }
+            else return fnAppliedToStepwiseArgs(updatedArgsSoFar);
+        };
+    }
 }
