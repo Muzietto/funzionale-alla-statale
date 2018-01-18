@@ -30,23 +30,44 @@ describe('curried functions are useful', function () {
     });
 });
 
-describe('generic unary currying is easy to implement', () => {
-    xit('using reduceRight', () => {
+describe('separating single params', () => {
+    it('allows to give e.g. the first param in advance', () => {
+        const firstIsTwelve = callFirst(threeParams, 12);
+
+        expect(firstIsTwelve(3, 4)).to.be.eql(/**/);
+
+        function threeParams(a, b, c) {
+            return a + b + c;
+        }
+    });
+});
+
+describe('generic unary currying is tricky to implement', () => {
+    it('building stepwise an array with the args given so far', () => {
 
         expect(multiParam(1, 2, 3, 4)).to.be.eql(10);
 
         const curriedMultiParam = curried(multiParam);
 
-        expect(curriedMultiParam(1)(2)(3)(4)).to.be.eql(10);
+        expect(curriedMultiParam(1)(2)(3)(4)).to.be.eql(/**/);
 
-        function curried(multiParamFun) {
-            const numParams = multiParamFun.length;
+        function curried(fn) {
+            var arity = fn.length;
 
-            return enumeration(numParams)
-                .reduceRight((acc, rest) => {
+            return fnAppliedToStepwiseArgs([]);
 
-                    return x => acc(null, null)
-                }, multiParamFun.apply);
+            function fnAppliedToStepwiseArgs(argsSoFar) {
+                return function () {
+                    let currentArgs = Array.prototype.slice.call(arguments);
+
+                    var updatedArgsSoFar = argsSoFar.concat(currentArgs);
+
+                    if (updatedArgsSoFar.length >= arity) {
+                        return fn.apply(null, updatedArgsSoFar);
+                    }
+                    else return fnAppliedToStepwiseArgs(updatedArgsSoFar);
+                };
+            }
         }
     });
 });
@@ -59,3 +80,10 @@ function enumeration(n) {
     return Array.from(Array(n).keys());
 }
 
+function callFirst(fn, larg) {
+    return function () {
+        var args = Array.prototype.slice.call(arguments);
+
+        return fn.apply(null, [larg].concat(args));
+    };
+}
