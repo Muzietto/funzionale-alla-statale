@@ -23,23 +23,92 @@ describe('maybes are optional values', function () {
             .to.be.eql('huge mistake');
     });
 
-    it('that can be combined in fail-safe operations - as applicative', function () {
+    describe('that can be combined in fail-safe operations - as applicative', function () {
+        it('for example, a very silly adder function', function () {
 
-        var add = x => y => x + y;
+            var add = x => y => x + y;
 
-        var MaybeAdd = Maybe.fromNullable(add);
+            var MaybeAdd = Maybe.fromNullable(add);
 
-        var applicationOk = MaybeAdd
-            .apply(optionalParsedInt('123'))
-            .apply(optionalParsedInt('234'));
+            var applicationOk = MaybeAdd
+                .apply(optionalParsedInt('123'))
+                .apply(optionalParsedInt('234'));
 
-        expect(applicationOk.getOrElse('no result')).to.be.eql(357);
+            expect(applicationOk.getOrElse('no result')).to.be.eql(357);
 
-        var applicationKo = MaybeAdd
-            .apply(optionalParsedInt('abc'))
-            .apply(optionalParsedInt('234'));
+            var applicationKo = MaybeAdd
+                .apply(optionalParsedInt('abc'))
+                .apply(optionalParsedInt('234'));
 
-        expect(applicationKo.getOrElse('no result')).to.be.eql('no result');
+            expect(applicationKo.getOrElse('no result')).to.be.eql('no result');
+        });
+        it('or a naive list builder', function () {
+
+            var cons = x => xs => [x].concat(xs);
+
+            var MaybeCons = Maybe.fromNullable(cons);
+
+            var applicationOk = MaybeCons
+                .apply(optionalParsedInt('123'))
+                .apply(Maybe.Just([234, 345]));
+
+            expect(applicationOk.getOrElse('no result')).to.be.eql([123, 234, 345]);
+
+            var applicationKo = MaybeCons
+                .apply(optionalParsedInt('abc'))
+                .apply(Maybe.Just([234, 345]));
+
+            expect(applicationKo.getOrElse('no result')).to.be.eql('no result');
+        });
+        describe('or a more serious list builder', function () {
+            it('that skips Nothing\'s', function () {
+
+                var cons = x => xs => [x].concat(xs);
+                var reverseArray = arra => arra.reverse();
+
+                var MaybeCons = Maybe.fromNullable(cons);
+
+                expect(maybeList1([Maybe.Just(1), Maybe.Nothing, Maybe.Just(2)]))
+                    .to.be.eql(Maybe.Just([1, 2]));
+
+                function maybeList1(listOfMaybes) {
+                    return listOfMaybes.reduce((acc, currMaybe) => {
+                        if (currMaybe.isJust) {
+                            return MaybeCons
+                                .apply(currMaybe)
+                                .apply(acc);
+                        } else {
+                            return acc;
+                        }
+                    }, Maybe.Just([])).fmap(reverseArray);
+                }
+            });
+            it('that invalidates the whole list once a Nothing is encountered', function () {
+
+                var cons = x => xs => [x].concat(xs);
+                var reverseArray = arra => arra.reverse();
+
+                var MaybeCons = Maybe.fromNullable(cons);
+
+                expect(maybeList2([Maybe.Just(1), Maybe.Nothing, Maybe.Just(2)]))
+                    .to.be.eql(Maybe.Nothing());
+
+                expect(maybeList2([Maybe.Just(1), Maybe.Just(2)]))
+                    .to.be.eql(Maybe.Just([1, 2]));
+
+                function maybeList2(listOfMaybes) {
+                    return listOfMaybes.reduce((acc, currMaybe) => {
+                        if (currMaybe.isJust && acc.isJust) {
+                            return MaybeCons
+                                .apply(currMaybe)
+                                .apply(acc);
+                        } else {
+                            return Maybe.Nothing();
+                        }
+                    }, Maybe.Just([])).fmap(reverseArray);
+                }
+            });
+        });
     });
 
     describe('that can be combined in fail-safe operations - as monad', function () {

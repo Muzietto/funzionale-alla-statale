@@ -29,7 +29,7 @@ const clone = Object.create;
 const unimplemented = function () {
     throw new Error('Not implemented.');
 };
-const noop = function () {
+const noop = function (x) {
     return this;
 };
 
@@ -95,7 +95,7 @@ function Nothing() {
  * @summary Void → Maybe[α]
  */
 Maybe.Nothing = function () {
-    return new Nothing;
+    return new Nothing();
 };
 Maybe.prototype.Nothing = Maybe.Nothing;
 
@@ -124,7 +124,7 @@ Maybe.prototype.Just = Maybe.Just;
  */
 Maybe.fromNullable = function (a) {
     return ((a !== null) && (typeof a !== 'undefined') && (!Number.isNaN(a))) ? new Just(a)
-        : /* otherwise */  new Nothing;
+        : /* otherwise */  new Nothing();
 };
 Maybe.prototype.fromNullable = Maybe.fromNullable;
 
@@ -230,12 +230,30 @@ Just.prototype.fmap = function (f) {
 Maybe.prototype.chain = unimplemented;
 Maybe.prototype.bind = unimplemented;
 Nothing.prototype.chain = noop;
-Nothing.prototype.bind= noop;
+Nothing.prototype.bind = noop;
 
 Just.prototype.chain = function (famb) {
     return famb(this.value);
 };
 Just.prototype.bind = Just.prototype.chain;
+
+// -- Folds and Extended Transformations -------------------------------
+
+/**
+ * Applies a function to each case in this data structure.
+ *
+ * @method
+ * @summary (@Validation[α, β]) => (α → γ), (β → γ) → γ
+ */
+Maybe.prototype.fold = unimplemented;
+
+Nothing.prototype.fold = function (f, _) {
+    return f(this.value);
+};
+
+Just.prototype.fold = function (_, g) {
+    return g(this.value);
+};
 
 // -- Show -------------------------------------------------------------
 /**
