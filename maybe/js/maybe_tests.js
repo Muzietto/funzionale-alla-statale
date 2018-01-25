@@ -68,7 +68,7 @@ describe('maybes are optional values', function () {
 
                 var MaybeCons = Maybe.fromNullable(cons);
 
-                expect(maybeList1([Maybe.Just(1), Maybe.Nothing, Maybe.Just(2)]))
+                expect(maybeList1([/**/]))
                     .to.be.eql(Maybe.Just([1, 2]));
 
                 function maybeList1(listOfMaybes) {
