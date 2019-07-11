@@ -102,7 +102,7 @@ describe('using reduce', () => {
         });
 
         it('then doing it functionally', () => {
-            // try something like [1,2,3].reduce(.. , ..)
+            // try something like [1,2,3].reduce((sum, number) => ... , ..)
             expect([1, 2, 3]).to.be.eql(6);
         });
 
@@ -120,7 +120,7 @@ describe('using reduce', () => {
 
         it('then doing it functionally', () => {
 
-            // try something like [1,2,3].reduce(.. , ..)
+          // try something like [1,2,3].reduce((average, number) => ... , ..)
             expect([1, 2, 3]).to.be.eql(2);
         });
 
