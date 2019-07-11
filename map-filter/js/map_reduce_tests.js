@@ -44,7 +44,7 @@ describe('using map and/or filter', function () {
         it('first doing it with a procedural routine', () => {
 
             function charCodesArray(string) {
-                // you can use String.prototype.charCodeAt
+                // NB: 'abc'.charCodeAt(0) = 97; 'abc'.charCodeAt(1) = 98; 'abc'.charCodeAt(c) = 99;
                 return string;
             }
 
