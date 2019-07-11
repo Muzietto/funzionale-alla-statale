@@ -166,9 +166,9 @@ describe('using reduce', () => {
         });
     });
 
-    describe('clone an object while modifying it partially', () => {
+    describe('clone an object while changing its values', () => {
 
-        it('first doing it with a procedural routine', () => {
+        it('first doing it with a procedural routine that modifies directly the input (AARGH!!!...)', () => {
 
             // hint: Object.keys({ a: 123, b: false }) = ['a', 'b']
             function makeEvenValuesOneven(obj) {
