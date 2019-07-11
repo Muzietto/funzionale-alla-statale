@@ -75,11 +75,16 @@ describe('using map and/or filter', function () {
 
         it('then doing it functionally', () => {
 
-            // try to make it with a one-liner and without using substring
+            // implement the function capitalized without using substring
             // nor any other string positional operator
+            // you will need to split the string at the beginning and join it back at the end
             // hint: check the complete signature of the mapping function
             // inside the API docs for Array.prototype.map
             expect(['social', 'sweethearts', 'gmbh']).to.be.eql(['Social', 'Sweethearts', 'Gmbh']);
+
+            function capitalized(string) {
+              return string;
+            }
         });
     });
 });
