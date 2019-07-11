@@ -150,7 +150,7 @@ describe('using reduce', () => {
 
         it('first doing it with a procedural routine', () => {
             function atLeastOneEven(array) {
-                return true;
+                return false;
             }
 
             expect(atLeastOneEven([1, 4, 7])).to.be.true;
