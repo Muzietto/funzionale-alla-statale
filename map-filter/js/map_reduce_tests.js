@@ -78,7 +78,7 @@ describe('using map and/or filter', function () {
             // try to make it with a one-liner and without using substring
             // nor any other string positional operator
             // hint: check the complete signature of the mapping function
-            // inside the API docs for String.prototype.map
+            // inside the API docs for Array.prototype.map
             expect(['social', 'sweethearts', 'gmbh']).to.be.eql(['Social', 'Sweethearts', 'Gmbh']);
         });
     });
