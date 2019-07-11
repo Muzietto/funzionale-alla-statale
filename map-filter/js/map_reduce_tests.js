@@ -198,16 +198,11 @@ describe('using reduce', () => {
 
         it('and using it to command a reduction', () => {
 
-            // you may find the following regex useful: /^(.*)\.[^\.]+$/
-            // or you just may go down on splitting the string
-            function chopNTimes(times, string) {
-                return string;
-            }
+            // output is an array
+            expect(enumeration(3).reduce(/*.. , ..*/)).to.be.eql(['*','**','***']);
 
-            expect(chopNTimes(3, 'ab.cde.f.gh.ijk.lm')).to.be.eql('ab.cde.f');
-
-            // where do you put the 'ab.cde.f.gh.ijk.lm' string?
-            expect(enumeration(/*times*/).reduce(/*.. , ..*/)).to.be.eql('a.b.c.d.e.f');
+            // output is a string
+            expect(enumeration(5).reduce(/*.. , ..*/)).to.be.eql('*.**.***.****.*****');
         });
     });
     describe('SPECIAL CHALLENGE: flatten an array, no matter how many levels it\'s nested', function () {
