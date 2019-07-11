@@ -19,7 +19,7 @@ describe('using map and/or filter', function () {
             // try to use ['a'].map(........)
             expect(['a']).to.be.eql([1]);
 
-            expect(['social', 'sweethearts']).to.be.eql([6, 11]);
+            expect(['easy', 'welfare']).to.be.eql([4, 7]);
         });
     });
 
@@ -70,7 +70,7 @@ describe('using map and/or filter', function () {
                 return array;
             }
 
-            expect(capitalized(['social', 'sweethearts', 'gmbh'])).to.be.eql(['Social', 'Sweethearts', 'Gmbh']);
+            expect(capitalized(['easy', 'welfare', 'milano'])).to.be.eql(['Easy', 'Welfare', 'Milano']);
         });
 
         it('then doing it functionally', () => {
@@ -80,7 +80,7 @@ describe('using map and/or filter', function () {
             // you will need to split the string at the beginning and join it back at the end
             // hint: check the complete signature of the mapping function
             // inside the API docs for Array.prototype.map
-            expect(['social', 'sweethearts', 'gmbh']).to.be.eql(['Social', 'Sweethearts', 'Gmbh']);
+            expect(['easy', 'welfare', 'milano']).to.be.eql(['Easy', 'Welfare', 'Milano']);
 
             function capitalized(string) {
               return string;
@@ -103,7 +103,7 @@ describe('using reduce', () => {
 
         it('then doing it functionally', () => {
             // try something like [1,2,3].reduce(.. , ..)
-            expect([1, 2, 3]).to.be.eql(2);
+            expect([1, 2, 3]).to.be.eql(6);
         });
 
     });
