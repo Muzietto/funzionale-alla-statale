@@ -1,5 +1,10 @@
 expect = chai.expect;
 
+/*  LITTLE TRICKS
+    - to exclude one test: modify "it" to "xit"
+    - to run just one test: modify "it" to "it.only"
+*/
+
 describe('using map and/or filter', function () {
     beforeEach(function () {
     });
@@ -17,9 +22,9 @@ describe('using map and/or filter', function () {
         it('then doing it functionally', () => {
 
             // try to use ['a'].map(........)
-            expect(['a']).to.be.eql([1]);
+            expect(stringToItsLength(['a'])).to.be.eql([1]);
 
-            expect(['easy', 'welfare']).to.be.eql([4, 7]);
+            expect(stringToItsLength(['easy', 'welfare'])).to.be.eql([4, 7]);
         });
     });
 
@@ -35,7 +40,7 @@ describe('using map and/or filter', function () {
         it('then doing it functionally', () => {
 
             // try to use [1,2,3].filter(........)
-            expect([1, 2, 3]).to.be.eql([1, 3]);
+            expect(withoutEvens([1, 2, 3])).to.be.eql([1, 3]);
         });
     });
 
@@ -54,10 +59,10 @@ describe('using map and/or filter', function () {
         it('then doing it functionally', () => {
 
             // try to solve it with a one-liner
-            expect('abc').to.be.eql([97, 98, 99]);
+            expect(charCodesArray(['abc'])).to.be.eql([97, 98, 99]);
 
             // try to solve it with a one-liner
-            expect(['abc', 'def']).to.be.eql([[97, 98, 99], [100, 101, 102]]);
+            expect(charCodesArray(['abc', 'def'])).to.be.eql([[97, 98, 99], [100, 101, 102]]);
 
             // one of the next steps will be to flatten the two sub-arrays
         });
@@ -80,7 +85,7 @@ describe('using map and/or filter', function () {
             // you will need to split the string at the beginning and join it back at the end
             // hint: check the complete signature of the mapping function
             // inside the API docs for Array.prototype.map
-            expect(['easy', 'welfare', 'milano']).to.be.eql(['Easy', 'Welfare', 'Milano']);
+            expect(capitalized(['easy', 'welfare', 'milano'])).to.be.eql(['Easy', 'Welfare', 'Milano']);
 
             function capitalized(string) {
               return string;
@@ -98,12 +103,11 @@ describe('using reduce', () => {
             }
 
             expect(sum([1, 2, 3])).to.be.eql(6);
-
         });
 
         it('then doing it functionally', () => {
             // try something like [1,2,3].reduce((sum, number) => ... , ..)
-            expect([1, 2, 3]).to.be.eql(6);
+            expect(sum([1, 2, 3])).to.be.eql(6);
         });
 
     });
@@ -121,7 +125,7 @@ describe('using reduce', () => {
         it('then doing it functionally', () => {
 
           // try something like [1,2,3].reduce((average, number) => ... , ..)
-            expect([1, 2, 3]).to.be.eql(2);
+            expect(average([1, 2, 3])).to.be.eql(2);
         });
 
     });
@@ -129,17 +133,17 @@ describe('using reduce', () => {
     describe('verify that all elements of an array satisfy a given condition (same as Array.prototype.every)', () => {
 
         it('first doing it with a procedural routine', () => {
-            function isAllEven(array) {
+            function areAllEven(array) {
                 return true;
             }
 
-            expect(isAllEven([2, 4, 6])).to.be.true;
+            expect(areAllEven([2, 4, 6])).to.be.true;
 
         });
 
         it('then doing it functionally', () => {
             // try something like [2,4,6].reduce(.. , ..)
-            expect([2, 4, 6]).to.be.true;
+            expect(areAllEven([2, 4, 6])).to.be.true;
 
             // you can obtain this also with Array.prototype.every
             expect([2, 4, 6].every(/* ... */)).to.be.true;
@@ -159,7 +163,7 @@ describe('using reduce', () => {
 
         it('then doing it functionally', () => {
             // try something like [1,4,7].reduce(.. , ..)
-            expect([1, 4, 7]).to.be.true;
+            expect(atLeastOneEven([1, 4, 7])).to.be.true;
 
             // you can obtain this also with Array.prototype.some
             expect([2, 4, 6].some(/* ... */)).to.be.true;
@@ -171,17 +175,17 @@ describe('using reduce', () => {
         it('first doing it with a procedural routine that modifies directly the input (AARGH!!!...)', () => {
 
             // hint: Object.keys({ a: 123, b: false }) = ['a', 'b']
-            function makeEvenValuesOneven(obj) {
+            function makeEvenValuesOdd(obj) {
                 return obj;
             }
 
-            expect(makeEvenValuesOneven({a: 2, b: 5})).to.be.eql({a: 3, b: 5});
+            expect(makeEvenValuesOdd({a: 2, b: 5})).to.be.eql({a: 3, b: 5});
         });
 
         it('then doing it functionally', () => {
 
             // try something like Object.keys(obj).reduce(.. , ..)
-            expect({a: 2, b: 5}).to.be.eql({a: 3, b: 5});
+            expect(makeEvenValuesOdd({a: 2, b: 5})).to.be.eql({a: 3, b: 5});
         });
     });
 
@@ -222,7 +226,7 @@ describe('using reduce', () => {
                 return acc;
             }
 
-            expect([1, [2, 3, [4]], 5, [[6, 7, [8]], 9], 0])
+            expect(flattened([1, [2, 3, [4]], 5, [[6, 7, [8]], 9], 0]))
                 .to.be.eql([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
         });
     });
