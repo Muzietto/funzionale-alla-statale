@@ -9,10 +9,12 @@ describe('maybes are optional values', function () {
 
     it('that express whether a calculation has produced some result - 2', function () {
 
-        expect(Maybe.fromNullable([1, 2, 3].find(x => (x === 2))).get())
-            .to.be.eql(2);
-        expect(Maybe.fromNullable([1, 2, 3].find(x => (x === 4))).isNothing)
+        expect(Maybe.fromNullable([1, 2, 3].findIndex(x => (x === 1))).isJust)
             .to.be.true;
+        expect(Maybe.fromNullable([1, 2, 3].findIndex(x => (x === 2))).get())
+            .to.be.eql(/* TO DO */);
+        expect(Maybe.fromNullable([1, 2, 3].findIndex(x => (x === 4))).isNothing)
+            .to.be/* TO DO */;
     });
 
     it('that can be safely mapped over to modify their values', function () {
@@ -20,7 +22,7 @@ describe('maybes are optional values', function () {
         expect(Maybe.of([1, 2, 3]).fmap(x => x.concat(x)).getOrElse('huge mistake'))
             .to.be.eql([1, 2, 3, 1, 2, 3]);
         expect(Maybe.of([1, 2, 3]).fmap(x => 2 * x).getOrElse('huge mistake'))
-            .to.be.eql('huge mistake');
+            .to.be.eql(/* TO DO */);
     });
 
     describe('that can be combined in fail-safe operations - as applicative', function () {
@@ -28,37 +30,37 @@ describe('maybes are optional values', function () {
 
             var add = x => y => x + y;
 
-            var MaybeAdd = Maybe.fromNullable(add);
+            var maybeAdd = Maybe.of(add);
 
-            var applicationOk = MaybeAdd
+            var applicationOk = maybeAdd
                 .apply(optionalParsedInt('123'))
                 .apply(optionalParsedInt('234'));
 
-            expect(applicationOk.getOrElse('no result')).to.be.eql(357);
+            expect(applicationOk.getOrElse('no result')).to.be.eql(/* TO DO */);
 
-            var applicationKo = MaybeAdd
+            var applicationKo = maybeAdd
                 .apply(optionalParsedInt('abc'))
                 .apply(optionalParsedInt('234'));
 
-            expect(applicationKo.getOrElse('no result')).to.be.eql('no result');
+            expect(applicationKo.getOrElse('no result')).to.be.eql(/* TO DO */);
         });
         it('or a naive list builder', function () {
 
             var cons = x => xs => [x].concat(xs);
 
-            var MaybeCons = Maybe.fromNullable(cons);
+            var maybeCons = Maybe.of(cons);
 
-            var applicationOk = MaybeCons
+            var applicationOk = maybeCons
                 .apply(optionalParsedInt('123'))
                 .apply(Maybe.Just([234, 345]));
 
-            expect(applicationOk.getOrElse('no result')).to.be.eql([123, 234, 345]);
+            expect(applicationOk.getOrElse('no result')).to.be.eql(/* TO DO */);
 
-            var applicationKo = MaybeCons
+            var applicationKo = maybeCons
                 .apply(optionalParsedInt('abc'))
                 .apply(Maybe.Just([234, 345]));
 
-            expect(applicationKo.getOrElse('no result')).to.be.eql('no result');
+            expect(applicationKo.getOrElse('no result')).to.be.eql(/* TO DO */);
         });
         describe('or a more serious list builder', function () {
             it('that skips Nothing\'s', function () {
@@ -66,13 +68,15 @@ describe('maybes are optional values', function () {
                 var cons = x => xs => [x].concat(xs);
                 var reverseArray = arra => arra.reverse();
 
-                var MaybeCons = Maybe.fromNullable(cons);
+                var maybeCons = Maybe.of(cons);
 
                 expect(maybeList1([/**/]))
                     .to.be.eql(Maybe.Just([1, 2]));
 
                 function maybeList1(listOfMaybes) {
-                    return listOfMaybes.reduce(/* implement me */).fmap(/* why would you need me? */);
+                    return listOfMaybes
+                      .reduce(/* implement me */, Maybe.Just([]))
+                      .fmap(/* why would you need me? */);
                 }
             });
             it('that invalidates the whole list once a Nothing is encountered', function () {
@@ -80,9 +84,9 @@ describe('maybes are optional values', function () {
                 var cons = x => xs => [x].concat(xs);
                 var reverseArray = arra => arra.reverse();
 
-                var MaybeCons = Maybe.fromNullable(cons);
+                var maybeCons = Maybe.of(cons);
 
-                expect(maybeList2([Maybe.Just(1), Maybe.Nothing, Maybe.Just(2)]))
+                expect(maybeList2([Maybe.Just(1), Maybe.Nothing(), Maybe.Just(2)]))
                     .to.be.eql(Maybe.Nothing());
 
                 expect(maybeList2([Maybe.Just(1), Maybe.Just(2)]))
