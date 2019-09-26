@@ -1,13 +1,13 @@
 expect = chai.expect;
 
-describe('maybes are optional values', function () {
-    it('that express whether a calculation has produced some result - 1', function () {
+describe('maybes are optional values', () => {
+    it('that express whether a calculation has produced some result - 1', () => {
 
         expect(Maybe.fromNullable(parsedIntOrNull('123')).isJust).to.be.true;
         expect(Maybe.fromNullable(parsedIntOrNull('abc')).isNothing).to.be.true;
     });
 
-    it('that express whether a calculation has produced some result - 2', function () {
+    it('that express whether a calculation has produced some result - 2', () => {
 
         expect(Maybe.fromNullable([1, 2, 3].findIndex(x => (x === 1))).isJust)
             .to.be.true;
@@ -17,16 +17,16 @@ describe('maybes are optional values', function () {
             .to.be/* TO DO */;
     });
 
-    it('that can be safely mapped over to modify their values', function () {
+    it('that can be safely mapped over to modify their values', () => {
 
         expect(Maybe.of([1, 2, 3]).fmap(x => x.concat(x)).getOrElse('huge mistake'))
-            .to.be.eql([1, 2, 3, 1, 2, 3]);
+            .to.be.eql(/* TO DO */);
         expect(Maybe.of([1, 2, 3]).fmap(x => 2 * x).getOrElse('huge mistake'))
             .to.be.eql(/* TO DO */);
     });
 
-    describe('that can be combined in fail-safe operations - as applicative', function () {
-        it('for example, a very silly adder function', function () {
+    describe('that can be combined in fail-safe operations - as applicative', () => {
+        it('for example, a very silly adder function', () => {
 
             var add = x => y => x + y;
 
@@ -44,7 +44,7 @@ describe('maybes are optional values', function () {
 
             expect(applicationKo.getOrElse('no result')).to.be.eql(/* TO DO */);
         });
-        it('or a naive list builder', function () {
+        it('or a naive list builder', () => {
 
             var cons = x => xs => [x].concat(xs);
 
@@ -62,8 +62,8 @@ describe('maybes are optional values', function () {
 
             expect(applicationKo.getOrElse('no result')).to.be.eql(/* TO DO */);
         });
-        describe('or a more serious list builder', function () {
-            it('that skips Nothing\'s', function () {
+        describe('or a more serious list builder', () => {
+            it('that skips Nothing\'s', () => {
 
                 var cons = x => xs => [x].concat(xs);
                 var reverseArray = arra => arra.reverse();
@@ -79,7 +79,7 @@ describe('maybes are optional values', function () {
                       .fmap(/* why would you need me? */);
                 }
             });
-            it('that invalidates the whole list once a Nothing is encountered', function () {
+            it('that invalidates the whole list once a Nothing is encountered', () => {
 
                 var cons = x => xs => [x].concat(xs);
                 var reverseArray = arra => arra.reverse();
@@ -97,7 +97,7 @@ describe('maybes are optional values', function () {
         });
     });
 
-    describe('that can be combined in fail-safe operations - as monad', function () {
+    describe('that can be combined in fail-safe operations - as monad', () => {
 
         it('for example, a simple account balance calculator', () => {
 
