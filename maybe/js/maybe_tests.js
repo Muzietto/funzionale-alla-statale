@@ -19,10 +19,17 @@ describe('maybes are optional values', () => {
 
     it('that can be safely mapped over to modify their values', () => {
 
+<<<<<<< Updated upstream
         expect(Maybe.of([1, 2, 3]).fmap(x => x.concat(x)).getOrElse('huge mistake'))
             .to.be.eql(/* TO DO */);
         expect(Maybe.of([1, 2, 3]).fmap(x => 2 * x).getOrElse('huge mistake'))
             .to.be.eql(/* TO DO */);
+=======
+        expect(Maybe.of([1, 2, 3]).fmap(ar => ar.concat(ar)).getOrElse('huge mistake'))
+            .to.be.eql([1, 2, 3, 1, 2, 3]);
+        expect(Maybe.of([1, 2, 3]).fmap(ar => Maybe.of(2 * ar)).getOrElse('huge mistake'))
+            .to.be.eql('huge mistake');
+>>>>>>> Stashed changes
     });
 
     describe('that can be combined in fail-safe operations - as applicative', () => {
@@ -140,6 +147,15 @@ describe('maybes are optional values', () => {
         });
 
         it('but the possibility to recover from debt is tricky', () => {
+<<<<<<< Updated upstream
+=======
+            var changeBalance = delta => balance => (balance + delta >= 0) ? Maybe.of(balance + delta) : Maybe.Nothing();
+            // once we are in red and the balance becomes a Nothing, every function that we bind will actually not operate
+
+            // orElse to the rescue!
+            expect(Maybe.of(2).bind(changeBalance(-3)).orElse(_ => Maybe.of(0)).getOrElse('you are broke'))
+                .to.be.eql(0);
+>>>>>>> Stashed changes
 
             var changeBalance = delta => balance => (balance + delta >= 0)
               ? Maybe.of(balance + delta)
