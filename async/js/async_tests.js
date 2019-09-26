@@ -19,6 +19,7 @@ describe('a fake gender module', () => {
         ], 'M').then(male_fb_members => {
             expect(male_fb_members.length).to.be.eql(2);
             expect(male_fb_members[1].id).to.be.eql(125);
+            return Promise.resolve(male_fb_members);
         });
     });
 });
@@ -34,6 +35,7 @@ describe('recursive async batch processing', function () {
                 result.forEach(obj => {
                     expect(obj.gender).to.be.eql('M');
                 });
+                return Promise.resolve(result);
             });
     });
 

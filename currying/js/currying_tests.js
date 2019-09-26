@@ -11,7 +11,9 @@ describe('curried functions are useful', function () {
 
         expect(typeof partiallyApplied).to.be.eql('function');
 
+
         // now you can pass partiallyApplied as a first-class object
+        expect(partiallyApplied(3,4,5)).to.be.eql(/**/);
         expect((fun => fun(3, 4, 5))(partiallyApplied)).to.be.eql(/**/);
     });
 
@@ -63,12 +65,12 @@ describe('generic unary currying is tricky to implement', () => {
         expect(multiParam(1, 2, 3, 4)).to.be.eql(10);
 
         const curriedMultiParam = curried(multiParam);
-        expect(curriedMultiParam(1)(2)(3)(4)).to.be.eql(/**/);
+        expect(curriedMultiParam(1)(2)(3)(4)).to.be.eql(10);
     });
     it('...and watch out that this implementation is not strictly unary', () => {
 
         const curriedMultiParam = curried(multiParam);
-        expect(curriedMultiParam(1, 2)(3, 4)).to.be.eql(/**/);
+        expect(curriedMultiParam(1, 2)(3, 4)).to.be.eql(10);
     });
 });
 

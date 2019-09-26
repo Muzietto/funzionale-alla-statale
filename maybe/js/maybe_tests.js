@@ -131,7 +131,7 @@ describe('maybes are optional values', () => {
                 .to.be.eql('you exceeded your overdraft'); // no longer allowed
 
             // let's implement a function that changes the value of the overdraft without touching the balance
-            var newOverdraft = newValue => pair => pair; // TODO: implement me
+            var newOverdraft = newValue => ([saldo, overdraft]) => Maybe.of(Tuple.Pair(saldo, newValue));
 
             expect(Maybe.of(Tuple.Pair(2, -1)).bind(newOverdraft(-4)).bind(changeBalance(-4)).getOrElse('you exceeded your overdraft'))
                 .to.be.eql(Tuple.Pair(-2, -4));
