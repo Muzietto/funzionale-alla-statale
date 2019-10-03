@@ -25,13 +25,13 @@
 //module.exports = Validation
 
 // -- Aliases ----------------------------------------------------------
-const clone = Object.create;
-const unimplemented = function () {
-    throw new Error('Not implemented.');
-};
-const noop = function () {
-    return this;
-};
+// const clone = Object.create;
+// const unimplemented = function () {
+//     throw new Error('Not implemented.');
+// };
+// const noop = function () {
+//     return this;
+// };
 
 
 // -- Implementation ---------------------------------------------------
@@ -51,7 +51,7 @@ const noop = function () {
  *                   , Show
  *                   , Eq
  */
-export function Validation() {
+function Validation() {
 }
 
 Failure.prototype = clone(Validation.prototype);
