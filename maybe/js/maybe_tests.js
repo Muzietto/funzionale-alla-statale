@@ -10,18 +10,22 @@ describe('maybes are optional values', () => {
     it('that express whether a calculation has produced some result - 2', () => {
 
         expect(Maybe.fromNullable([1, 2, 3].findIndex(x => (x === 1))).isJust)
-            .to.be.true;
+            .to.be/* FILL ME */;
         expect(Maybe.fromNullable([1, 2, 3].findIndex(x => (x === 2))).get())
-            .to.be.eql(/* TO DO */);
+            .to.be.eql(/* FILL ME */);
         expect(Maybe.fromNullable([1, 2, 3].findIndex(x => (x === 4))).isNothing)
-            .to.be/* TO DO */;
+            .to.be/* FILL ME */;
     });
 
     it('that can be safely mapped over to modify their values', () => {
-        expect(Maybe.of([1, 2, 3]).fmap(x => x.concat(x)).getOrElse('huge mistake'))
-            .to.be.eql(/* TO DO */);
-        expect(Maybe.of([1, 2, 3]).fmap(x => 2 * x).getOrElse('huge mistake'))
-            .to.be.eql(/* TO DO */);
+        expect(Maybe.of([1, 2, 3])
+          .fmap(x => x.concat(x))
+          .getOrElse('huge mistake'))
+            .to.be.eql(/* FILL ME */);
+        expect(Maybe.of([1, 2, 3])
+          .fmap(x => 2 * x)
+          .getOrElse('huge mistake'))
+            .to.be.eql(/* FILL ME */);
     });
 
     describe('that can be combined in fail-safe operations - as applicative', () => {
@@ -35,13 +39,13 @@ describe('maybes are optional values', () => {
                 .apply(optionalParsedInt('123'))
                 .apply(optionalParsedInt('234'));
 
-            expect(applicationOk.getOrElse('no result')).to.be.eql(/* TO DO */);
+            expect(applicationOk.getOrElse('no result')).to.be.eql(/* FILL ME */);
 
             var applicationKo = maybeAdd
                 .apply(optionalParsedInt('abc'))
                 .apply(optionalParsedInt('234'));
 
-            expect(applicationKo.getOrElse('no result')).to.be.eql(/* TO DO */);
+            expect(applicationKo.getOrElse('no result')).to.be.eql(/* FILL ME */);
         });
         it('or a naive list builder', () => {
 
@@ -53,13 +57,17 @@ describe('maybes are optional values', () => {
                 .apply(optionalParsedInt('123'))
                 .apply(Maybe.Just([234, 345]));
 
-            expect(applicationOk.getOrElse('no result')).to.be.eql(/* TO DO */);
+            expect(applicationOk
+                .getOrElse('no result'))
+                .to.be.eql(/* FILL ME */);
 
             var applicationKo = maybeCons
                 .apply(optionalParsedInt('abc'))
                 .apply(Maybe.Just([234, 345]));
 
-            expect(applicationKo.getOrElse('no result')).to.be.eql(/* TO DO */);
+            expect(applicationKo
+                .getOrElse('no result'))
+                .to.be.eql(/* FILL ME */);
         });
         describe('or a more serious list builder', () => {
             it('that skips Nothing\'s', () => {
@@ -69,12 +77,12 @@ describe('maybes are optional values', () => {
 
                 var maybeCons = Maybe.of(cons);
 
-                expect(maybeList1([/**/]))
+                expect(maybeList1([/* FILL ME */]))
                     .to.be.eql(Maybe.Just([1, 2]));
 
                 function maybeList1(listOfMaybes) {
                     return listOfMaybes
-                      .reduce(/* implement me */, Maybe.Just([]))
+                      .reduce(/* IMPLEMENT ME */, Maybe.Just([]))
                       .fmap(/* why would you need me? */);
                 }
             });
@@ -86,12 +94,12 @@ describe('maybes are optional values', () => {
                 var maybeCons = Maybe.of(cons);
 
                 expect(maybeList2([Maybe.Just(1), Maybe.Nothing(), Maybe.Just(2)]))
-                    .to.be.eql(Maybe.Nothing());
+                    .to.be.eql(/* FILL ME */);
 
                 expect(maybeList2([Maybe.Just(1), Maybe.Just(2)]))
-                    .to.be.eql(Maybe.Just([1, 2]));
+                    .to.be.eql(/* FILL ME */);
 
-                function maybeList2(listOfMaybes) {/* implement me */}
+                function maybeList2(listOfMaybes) {/* IMPLEMENT ME */}
             });
         });
     });
@@ -103,13 +111,20 @@ describe('maybes are optional values', () => {
             // as long as the account balance is positive or zero, its value is Just(balance)
             // if the account balance becomes negative, its value is Nothing
             var changeBalance = delta => balance => (balance + delta >= 0)
-              ? Maybe.of(balance + delta)
-              : Maybe.Nothing();
+                ? Maybe.of(balance + delta)
+                : Maybe.Nothing();
 
-            expect(Maybe.of(2).bind(changeBalance(1)).bind(changeBalance(-3)).getOrElse('you are broke'))
-                .to.be.eql(0);
-            expect(Maybe.of(2).bind(changeBalance(1)).bind(changeBalance(-4)).getOrElse('you are broke'))
-                .to.be.eql('you are broke');
+            expect(Maybe.of(2)
+                .bind(changeBalance(1))
+                .bind(changeBalance(-3))
+                .getOrElse('you are broke'))
+                .to.be.eql(/* FILL ME */);
+
+            expect(Maybe.of(2)
+                .bind(changeBalance(1))
+                .bind(changeBalance(-4))
+                .getOrElse('you are broke'))
+                .to.be.eql(/* FILL ME */);
         });
 
         it('with a flexible overdraft value', () => {
@@ -120,20 +135,29 @@ describe('maybes are optional values', () => {
             // this function has one drawback: the maximum overdraft value (0) is hardcoded inside, and not modifiable
             // what we need is to pass around a Maybe.Just(Tuple.Pair(balance, overdraft))
 
-            var changeBalance = delta => pair => pair; // TODO: implement me
+            var changeBalance = delta => pair => pair; // TODO: IMPLEMENT ME
 
-            expect(Maybe.of(Tuple.Pair(2, -1)).bind(changeBalance(-1)).getOrElse('you exceeded your overdraft'))
-                .to.be.eql(Tuple.Pair(1, -1));
-            expect(Maybe.of(Tuple.Pair(2, -1)).bind(changeBalance(-3)).getOrElse('you exceeded your overdraft'))
-                .to.be.eql(Tuple.Pair(-1, -1)); // still allowed
-            expect(Maybe.of(Tuple.Pair(2, -1)).bind(changeBalance(-4)).getOrElse('you exceeded your overdraft'))
-                .to.be.eql('you exceeded your overdraft'); // no longer allowed
+            expect(Maybe.of(Tuple.Pair(2, -1))
+                .bind(changeBalance(-1))
+                .getOrElse('you exceeded your overdraft'))
+                .to.be.eql(/* FILL ME */); // 100% ok
+            expect(Maybe.of(Tuple.Pair(2, -1))
+                .bind(changeBalance(-3))
+                .getOrElse('you exceeded your overdraft'))
+                .to.be.eql(/* FILL ME */); // still allowed
+            expect(Maybe.of(Tuple.Pair(2, -1))
+                .bind(changeBalance(-4))
+                .getOrElse('you exceeded your overdraft'))
+                .to.be.eql(/* FILL ME */); // no longer allowed
 
             // let's implement a function that changes the value of the overdraft without touching the balance
             var newOverdraft = newValue => ([saldo, overdraft]) => Maybe.of(Tuple.Pair(saldo, newValue));
 
-            expect(Maybe.of(Tuple.Pair(2, -1)).bind(newOverdraft(-4)).bind(changeBalance(-4)).getOrElse('you exceeded your overdraft'))
-                .to.be.eql(Tuple.Pair(-2, -4));
+            expect(Maybe.of(Tuple.Pair(2, -1))
+                .bind(newOverdraft(-4))
+                .bind(changeBalance(-4))
+                .getOrElse('you exceeded your overdraft'))
+                .to.be.eql(/* FILL ME */);
 
             // after solving the next exercise, you may want to implement debt recovering also here
         });
@@ -146,18 +170,22 @@ describe('maybes are optional values', () => {
             // every function that we bind will actually not operate
 
             // use orElse to rescue the situation!
+            // 1) the function passed to bind runs only inside a Just
+            // 2) the function passed to orElse runs only inside a Nothing
             expect(Maybe.of(2)
               .bind(changeBalance(-3))
-              .orElse(/* TODO: implement me */)
-              .getOrElse('you are broke')).to.be.eql(0);
+              .orElse(/* IMPLEMENT ME */)
+              .getOrElse('you are broke'))
+              .to.be.eql(0);
 
             expect(Maybe.of(2)
               .bind(changeBalance(-3))
               .bind(changeBalance(-4))
-              .orElse(/* TODO: implement me */)
+              .orElse(/* IMPLEMENT ME */)
               .bind(changeBalance(5))
-              .getOrElse('you are broke')).to.be.eql(5);
-            // question: what is the value of balance when orElse is applied in the last test?
+              .getOrElse('you are broke'))
+              .to.be.eql(5);
+            // QUESTION: what is the value of balance when orElse is applied in the last case?
         });
     });
 });
