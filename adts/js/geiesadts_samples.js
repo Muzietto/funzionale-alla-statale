@@ -1,49 +1,48 @@
-var expect = chai.expect;
+const { expect } = chai;
 
-var colombia = newItem('CO')
+const colombia = newItem('CO');
 
-var pp_1_euro = newItem('1 euro');
-var pp_2_euro = newItem('2 euro');
-var pp_3_euro = newItem('3 euro');
+const pp_1_euro = newItem('1 euro');
+const pp_2_euro = newItem('2 euro');
+const pp_3_euro = newItem('3 euro');
 
-var conn1 = newItem('conn1');
-var conn2 = newItem('conn2');
+const conn1 = newItem('conn1');
+const conn2 = newItem('conn2');
 
-var cp_vodafone = newItem('CP Vodafone');
-var cp_telfort = newItem('CP Telfort');
-var cp_kpn = newItem('CP KPN');
-var cp_tmobile = newItem('CP T-Mobile');
+const cp_vodafone = newItem('CP Vodafone');
+const cp_telfort = newItem('CP Telfort');
+const cp_kpn = newItem('CP KPN');
+const cp_tmobile = newItem('CP T-Mobile');
 
-var route1 = newItem('route1');
-var route2 = newItem('route2');
-var route3 = newItem('route3');
-var route4 = newItem('route4');
-var route5 = newItem('route5');
+const route1 = newItem('route1');
+const route2 = newItem('route2');
+const route3 = newItem('route3');
+const route4 = newItem('route4');
+const route5 = newItem('route5');
 
-var sdk = newItem('sdk');
-var sms = newItem('sms');
-var desktop = newItem('desktop');
+const sdk = newItem('sdk');
+const sms = newItem('sms');
+const desktop = newItem('desktop');
 
-var leaf1 = leaf(cp_tmobile);
-var leaf2 = leaf(sms);
+const leaf1 = leaf(cp_tmobile);
+const leaf2 = leaf(sms);
 
-var subtree1 = node(route3,[
+const subtree1 = node(route3, [
   leaf(sdk),
-  leaf2
+  leaf2,
 ]);
 
-var tree1 = node(colombia,[
+const tree1 = node(colombia, [
   leaf(pp_1_euro),
-  node(pp_2_euro,[
-    node(conn1,[
-      node(cp_vodafone,[
+  node(pp_2_euro, [
+    node(conn1, [
+      node(cp_vodafone, [
         leaf(route1),
         leaf(route2),
-        subtree1
+        subtree1,
       ]),
-      leaf1
+      leaf1,
     ]),
-    leaf(conn2)
-  ])
+    leaf(conn2),
+  ]),
 ]);
-
